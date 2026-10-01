@@ -31,44 +31,77 @@ def save_warnings(data):
 warnings_data = load_warnings()
 
 
-# --- نظام الأزرار التفاعلية (Rules Buttons) ---
+# --- نظام الأزرار التفاعلية للقوانين (Ephemerally Sent) ---
 class RulesView(discord.ui.View):
     def __init__(self):
-        super().__init__(timeout=None)  # جعل الأزرار تعمل دائماً (Persistent View)
+        super().__init__(timeout=None)  # Persistent View لتبقى شغالّة دائماً
 
     @discord.ui.button(
-        label="القوانين | Rules", 
+        label="القوانين بالعربية", 
         style=discord.ButtonStyle.primary, 
-        emoji="📜", 
-        custom_id="rules_btn_persistent"
+        emoji="🇸🇦", 
+        custom_id="rules_ar_btn_persistent"
     )
-    async def rules_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.send_message(
-            "✅ **نشكرك على قراءة القوانين والالتزام بها لضمان بيئة ممتعة للجميع!**", 
-            ephemeral=True
+    async def rules_ar_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        ar_rules_text = (
+            "*** Server Rules :***\n\n"
+            "<:one:1462866422664269975> : **الاحترام والتعامل الحسَن**\n"
+            "**عامل الجميع باحترام؛ يُمنع تمامًا السب، الإساءة، التحرش، أو أي شكل من أشكال التمييز و العنصرية.**\n"
+            "**يُمنع مناقشة المواضيع السياسية والدينية لتجنب الخلافات.**\n\n"
+            "<:two:1462866481061560544> : **المحتوى والملفات الشخصية**\n"
+            "**يُمنع نشر أي محتوى خادش، عنيف، أو غير لائق، أو يعارض اي من قونين السيرفر.**\n"
+            "**يجب أن تكون صورتك الشخصية واسمك خاليين من أي إيحاءات أو عبارات مسيئة.**\n\n"
+            "<:three:1462866517996605542> : **حظر الإعلانات والسبام**\n"
+            "**يُمنع تكرار الرسائل (Spam) أو المنشن العشوائي.**\n"
+            "**يُمنع نشر الروابط أو الترويج لسيرفرات وصفحات خارجية دون إذن الإدارة.**\n\n"
+            "<:four:1462866555342819510> : **الخصوصية والأمان**\n"
+            "**حافظ على خصوصيتك ولا تشارك معلوماتك أو صورك الشخصية (السيرفر غير مسؤول عن إفشاء معلوماتك لو كانت خارج سيرفرنا).**\n"
+            "**يُمنع تصوير أو نقل المحادثات الخاصة بين الأعضاء دون موافقتهم. (ملاحظة مهمة)**\n\n"
+            "<:five:1462866590105075817> : **الرتب والإدارة**\n"
+            "**تُمنح الرتب بناءً على التفاعل والثقة؛ يُرجى عدم طلبها من الإدارة.**\n"
+            "**قرارات الإدارة نهائية، وفي حال وجود اعتراض يُقدَم عبر [التكت <#1536119621940281404> ] بأسلوب راقٍ و حضاري و محترم.**\n\n"
+            "***⚠️ ملاحظة:*** **تكرار المخالفات يعرّض حسابك للإنذار، الطرد، أو الحظر النهائي (Ban).**\n"
+            "**وجودك بالسيرفر يعني موافقتك الكاملة على هذه القوانين.**"
         )
+        await interaction.response.send_message(ar_rules_text, ephemeral=True)
 
     @discord.ui.button(
-        label="الخريطة | Map", 
+        label="English Rules", 
         style=discord.ButtonStyle.secondary, 
-        emoji="🗺️", 
-        custom_id="map_btn_persistent"
+        emoji="🇬🇧", 
+        custom_id="rules_en_btn_persistent"
     )
-    async def map_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.send_message(
-            "🗺️️ **تفقد روم الشاتات والقنوات للتنقل بسهولة داخل السيرفر.**", 
-            ephemeral=True
+    async def rules_en_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        en_rules_text = (
+            "*** Server Rules :***\n\n"
+            "<:one:1462866422664269975> : **Mutual Respect & Conduct**\n"
+            "**Treat everyone with respect. Harassment, hate speech, racism, or discrimination of any kind will not be tolerated.**\n"
+            "**Political and religious discussions are strictly prohibited to maintain a friendly environment.**\n\n"
+            "<:two:1462866481061560544> : **Content & Profiles**\n"
+            "**Do not share NSFW, graphic, or inappropriate content.**\n"
+            "**Profile pictures, usernames, and statuses must remain clean and free from offensive material, or violates any of the server rules.**\n\n"
+            "<:three:1462866517996605542> : **Spam & Self-Promotion**\n"
+            "**Avoid messaging spam, excessive caps, or unnecessary mass mentions (@.everyone/@.here).**\n"
+            "**Unsolicited self-promotion, external server links, or advertising via chat or DMs is forbidden.**\n\n"
+            "<:four:1462866555342819510> : **Privacy & Safety**\n"
+            "**Protect your personal information (e.g., photos, full name, address). The server is not responsible for disclosing your information if it is outside our server.**\n"
+            "**Leaking private conversations, screenshots, or personal data of other members without consent is strictly banned.**\n\n"
+            "<:five:1462866590105075817> : **Staff & Roles**\n"
+            "**Roles are earned through trust and community participation—please do not request them.**\n"
+            "**The administration's decisions are final, and in case of an objection, it should be submitted via [Support: <#1536119621940281404> ] in a classy, civilized and respectful manner.**\n\n"
+            "***⚠️ Enforcement:*** **Violating these rules will result in warnings, temporary mutes, or a permanent ban depending on severity.**\n"
+            "**Joining this server implies your agreement to all rules.**"
         )
+        await interaction.response.send_message(en_rules_text, ephemeral=True)
 
 
 @bot.event
 async def on_ready():
-    # تسجيل نظام الأزرار ليعمل بشكل دائم حتى عند إعادة تشغيل البوت على Railway
     bot.add_view(RulesView())
     print(f"Logged in as {bot.user} - Bot is Ready on Railway!")
 
 
-# --- أمر إرسال القوانين بدون @everyone (؟قوانين) ---
+# --- أمر إرسال القوانين (؟قوانين) ---
 @bot.command(name="قوانين")
 @commands.has_permissions(administrator=True)
 async def send_rules(ctx):
@@ -78,52 +111,14 @@ async def send_rules(ctx):
             "**• بدون تعقيد رفيقي**\n"
             "هذا السيرفر هو مكان مُخصص للترفيه فقط، والمحتوى فيه عشوائي حسب مزاج المالك والأعضاء.\n"
             "يعتبر **Safe Zone**، وكل ما يدور بداخله لا يمد للواقع والجدية بصلة.\n\n"
-            "🔹 **راجع القوانين أدناه**\n"
-            "🔹 **اطّلع على الخريطة لمعرفة الشاتات وفكرتها**\n\n"
-            "🔻 ──── **القوانين بالعربية** ──── 🔻\n\n"
-            "<:one:1462866422664269975> : **الاحترام والتعامل الحسَن**\n"
-            "• عامل الجميع باحترام؛ يُمنع تمامًا السب، الإساءة، التحرش، أو أي شكل من أشكال التمييز والعنصرية.\n"
-            "• يُمنع مناقشة المواضيع السياسية والدينية لتجنب الخلافات.\n\n"
-            "<:two:1462866481061560544> : **المحتوى والملفات الشخصية**\n"
-            "• يُمنع نشر أي محتوى خادش، عنيف، أو غير لائق، أو يعارض أي من قوانين السيرفر.\n"
-            "• يجب أن تكون صورتك الشخصية واسمك خاليين من أي إيحاءات أو عبارات مسيئة.\n\n"
-            "<:three:1462866517996605542> : **حظر الإعلانات والسبام**\n"
-            "• يُمنع تكرار الرسائل (Spam) أو المنشن العشوائي.\n"
-            "• يُمنع نشر الروابط أو الترويج لسيرفرات وصفحات خارجية دون إذن الإدارة.\n\n"
-            "<:four:1462866555342819510> : **الخصوصية والأمان**\n"
-            "• حافظ على خصوصيتك ولا تشارك معلوماتك أو صورك الشخصية (السيرفر غير مسؤول عن إفشاء معلوماتك خارج السيرفر).\n"
-            "• يُمنع تصوير أو نقل المحادثات الخاصة بين الأعضاء دون موافقتهم.\n\n"
-            "<:five:1462866590105075817> : **الرتب والإدارة**\n"
-            "• تُمنح الرتب بناءً على التفاعل والثقة؛ يُرجى عدم طلبها من الإدارة.\n"
-            "• قرارات الإدارة نهائية، وفي حال وجود اعتراض يُقدَم بأسلوب راقٍ وحضاري.\n\n"
-            "⚠️️ **ملاحظة:** تكرار المخالفات يعرّض حسابك للإنذار، الطرد، أو الحظر النهائي (Ban).\n"
-            "📌 **وجودك بالسيرفر يعني موافقتك الكاملة على هذه القوانين.**\n\n"
-            "🔻 ──── **English Rules** ──── 🔻\n\n"
-            "<:one:1462866422664269975> : **Mutual Respect & Conduct**\n"
-            "• Treat everyone with respect. Harassment, hate speech, racism, or discrimination will not be tolerated.\n"
-            "• Political and religious discussions are strictly prohibited.\n\n"
-            "<:two:1462866481061560544> : **Content & Profiles**\n"
-            "• Do not share NSFW, graphic, or inappropriate content.\n"
-            "• Profile pictures and usernames must remain clean and appropriate.\n\n"
-            "<:three:1462866517996605542> : **Spam & Self-Promotion**\n"
-            "• Avoid spamming, excessive caps, or unnecessary mass mentions.\n"
-            "• Unsolicited self-promotion or external server links are forbidden.\n\n"
-            "<:four:1462866555342819510> : **Privacy & Safety**\n"
-            "• Protect your personal information. The server is not responsible for info shared outside.\n"
-            "• Leaking private conversations or personal data without consent is strictly banned.\n\n"
-            "<:five:1462866590105075817> : **Staff & Roles**\n"
-            "• Roles are earned through trust and activity—please do not ask for them.\n"
-            "• Staff decisions are final. Objections should be submitted in a classy and civilized manner.\n\n"
-            "⚠️ **Enforcement:** Violating rules will result in warnings, mutes, or a permanent ban.\n"
-            "📌 **Joining this server implies your agreement to all rules.**"
+            "🔹 **اضغط على الزر أدناه لعرض القوانين للغتك المناسبة (خاص بك فقط)**"
         ),
         color=discord.Color.from_rgb(30, 31, 34)
     )
 
-    # ضع رابط الصورة الخاصة بك هنا
+    # رابط صورة البانر
     embed.set_image(url="https://your-image-url-here.com/banner.png")
 
-    # إرسال الإمبد مع الأزرار فقط بدون أي منشن
     await ctx.send(embed=embed, view=RulesView())
 
 
@@ -138,7 +133,7 @@ async def help_command(ctx):
 
     embed.add_field(
         name="📜 **أوامر القوانين**",
-        value="`؟قوانين` - لإرسال إمبد القوانين مع الأزرار التفاعلية (للإدارة فقط).",
+        value="`؟قوانين` - لإرسال إمبد القوانين مع أزرار العرض الخفية (للإدارة فقط).",
         inline=False
     )
 
