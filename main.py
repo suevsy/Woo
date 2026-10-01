@@ -89,7 +89,7 @@ class RulesView(discord.ui.View):
             "<:five:1462866590105075817> : **Staff & Roles**\n"
             "**Roles are earned through trust and community participation—please do not request them.**\n"
             "**The administration's decisions are final, and in case of an objection, it should be submitted via [Support: <#1536119621940281404> ] in a classy, civilized and respectful manner.**\n\n"
-            "***⚠️ Enforcement:*** **Violating these rules will result in warnings, temporary mutes, or a permanent ban depending on severity.**\n"
+            "***⚠️️ Enforcement:*** **Violating these rules will result in warnings, temporary mutes, or a permanent ban depending on severity.**\n"
             "**Joining this server implies your agreement to all rules.**"
         )
         await interaction.response.send_message(en_rules_text, ephemeral=True)
@@ -111,7 +111,7 @@ async def send_rules(ctx):
             "**• بدون تعقيد رفيقي**\n"
             "هذا السيرفر هو مكان مُخصص للترفيه فقط، والمحتوى فيه عشوائي حسب مزاج المالك والأعضاء.\n"
             "يعتبر **Safe Zone**، وكل ما يدور بداخله لا يمد للواقع والجدية بصلة.\n\n"
-            "🔹 **اضغط على الزر أدناه لعرض القوانين للغتك المناسبة (خاص بك فقط)**"
+            "لا تصير دبشة ولا تعرف القوانين، إذا أنت عربي اضغط عربي واقرأ، وإذا أنت أجنبي وذي مستحيلة اضغط على الإنجليزي."
         ),
         color=discord.Color.from_rgb(30, 31, 34)
     )
