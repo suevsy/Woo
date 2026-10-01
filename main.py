@@ -12,7 +12,6 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
-# تعيين البريفكس لـ ؟ ليعمل أمر ؟قوانين
 bot = commands.Bot(command_prefix="؟", intents=intents)
 
 DATA_FILE = "warnings.json"
@@ -31,10 +30,10 @@ def save_warnings(data):
 warnings_data = load_warnings()
 
 
-# --- الأزرار التفاعلية الخاصة بالقوانين (بدون زر التكت) ---
+# --- نظام الأزرار التفاعلية (Rules Buttons) ---
 class RulesView(discord.ui.View):
     def __init__(self):
-        super().__init__(timeout=None)  # تبقى شغالة بشكل دائم (Persistent)
+        super().__init__(timeout=None)  # جعل الأزرار تعمل دائماً (Persistent View)
 
     @discord.ui.button(
         label="القوانين | Rules", 
@@ -63,17 +62,15 @@ class RulesView(discord.ui.View):
 
 @bot.event
 async def on_ready():
-    # تسجيل الأزرار لتظل تعمل حتى لو أعيد تشغيل البوت على Railway
+    # تسجيل نظام الأزرار ليعمل بشكل دائم حتى عند إعادة تشغيل البوت على Railway
     bot.add_view(RulesView())
     print(f"Logged in as {bot.user} - Bot is Ready on Railway!")
 
 
-# --- أمر إرسال القوانين (؟قوانين) ---
+# --- أمر إرسال القوانين بدون @everyone (؟قوانين) ---
 @bot.command(name="قوانين")
 @commands.has_permissions(administrator=True)
 async def send_rules(ctx):
-    content = "@everyone"
-
     embed = discord.Embed(
         title="✨ نبذة عن السيرفر | About Server",
         description=(
@@ -122,15 +119,55 @@ async def send_rules(ctx):
         color=discord.Color.from_rgb(30, 31, 34)
     )
 
-    # استبدل هذا الرابط برابط صورة البانر الخاصة بك
+    # ضع رابط الصورة الخاصة بك هنا
     embed.set_image(url="https://your-image-url-here.com/banner.png")
 
-    await ctx.send(content=content, embed=embed, view=RulesView())
+    # إرسال الإمبد مع الأزرار فقط بدون أي منشن
+    await ctx.send(embed=embed, view=RulesView())
+
+
+# --- أمر المساعدة (؟مساعده / ؟help) ---
+@bot.command(name="مساعده", aliases=["help", "الأوامر", "الاوامر"])
+async def help_command(ctx):
+    embed = discord.Embed(
+        title="🛠️ قائمة أوامر البوت | Bot Help",
+        description="إليك قائمة الأوامر المتاحة واستخداماتها داخل السيرفر:",
+        color=discord.Color.blue()
+    )
+
+    embed.add_field(
+        name="📜 **أوامر القوانين**",
+        value="`؟قوانين` - لإرسال إمبد القوانين مع الأزرار التفاعلية (للإدارة فقط).",
+        inline=False
+    )
+
+    embed.add_field(
+        name="⚠️ **أوامر نظام التحذيرات**",
+        value=(
+            "`؟تحذير @user [السبب]` أو `؟لهنت` - لإعطاء تحذير للعضو وتطبيق العقوبة التلقائية.\n"
+            "`؟التحذيرات @user` أو `؟تحذيراتي` - لعرض سجل التحذيرات المسجلة على العضو.\n"
+            "`؟مسح_تحذيرات @user` - لمسح وتصفير جميع تحذيرات العضو (للإدارة فقط)."
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="⚙️ **نظام العقوبات التلقائي (Timeout)**",
+        value=(
+            "• **3 تحذيرات:** عزل مؤقت لمدة **15 دقيقة**\n"
+            "• **6 تحذيرات:** عزل مؤقت لمدة **30 دقيقة**\n"
+            "• **9 تحذيرات فأكثر:** عزل مؤقت لمدة **ساعة واحدة**"
+        ),
+        inline=False
+    )
+
+    embed.set_footer(text=f"طلب بواسطة: {ctx.author.display_name}", icon_url=ctx.author.display_avatar.url)
+    
+    await ctx.send(embed=embed)
 
 
 # --- أوامر نظام التحذيرات (Warnings) ---
 
-# أمر إعطاء تحذير (؟تحذير أو ؟لهنت)
 @bot.command(name="تحذير", aliases=["لهنت", "warn"])
 @commands.has_permissions(manage_messages=True)
 async def warn_user(ctx, member: discord.Member = None, *, reason: str = "بدون سبب مذكور"):
@@ -159,7 +196,6 @@ async def warn_user(ctx, member: discord.Member = None, *, reason: str = "بدو
     timeout_duration = None
     timeout_str = ""
 
-    # تطبيق نظام التايم أوت التلقائي
     if total_warns == 3:
         timeout_duration = timedelta(minutes=15)
         timeout_str = "15 دقيقة"
@@ -187,7 +223,6 @@ async def warn_user(ctx, member: discord.Member = None, *, reason: str = "بدو
 
     await ctx.send(embed=embed)
 
-    # إرسال للوج
     if LOG_CHANNEL_ID:
         log_channel = bot.get_channel(LOG_CHANNEL_ID)
         if log_channel:
@@ -204,7 +239,6 @@ async def warn_user(ctx, member: discord.Member = None, *, reason: str = "بدو
                 log_embed.add_field(name="العقوبة", value=f"Timeout: {timeout_str}", inline=True)
             await log_channel.send(embed=log_embed)
 
-# أمر عرض التحذيرات (؟التحذيرات)
 @bot.command(name="التحذيرات", aliases=["warns", "تحذيراتي"])
 async def check_warns(ctx, member: discord.Member = None):
     target = member or ctx.author
@@ -231,7 +265,6 @@ async def check_warns(ctx, member: discord.Member = None):
 
     await ctx.send(embed=embed)
 
-# أمر مسح تحذيرات عضو (؟مسح_تحذيرات)
 @bot.command(name="مسح_تحذيرات", aliases=["clearwarns"])
 @commands.has_permissions(administrator=True)
 async def clear_warns(ctx, member: discord.Member = None):
