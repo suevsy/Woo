@@ -12,7 +12,8 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
-bot = commands.Bot(command_prefix="؟", intents=intents)
+# إلغاء أمر المساعدة الافتراضي لمنع التعارض مع alias="help"
+bot = commands.Bot(command_prefix="؟", intents=intents, help_command=None)
 
 DATA_FILE = "warnings.json"
 
@@ -55,7 +56,7 @@ class RulesView(discord.ui.View):
     )
     async def map_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message(
-            "🗺️ **تفقد روم الشاتات والقنوات للتنقل بسهولة داخل السيرفر.**", 
+            "🗺️️ **تفقد روم الشاتات والقنوات للتنقل بسهولة داخل السيرفر.**", 
             ephemeral=True
         )
 
@@ -95,7 +96,7 @@ async def send_rules(ctx):
             "<:five:1462866590105075817> : **الرتب والإدارة**\n"
             "• تُمنح الرتب بناءً على التفاعل والثقة؛ يُرجى عدم طلبها من الإدارة.\n"
             "• قرارات الإدارة نهائية، وفي حال وجود اعتراض يُقدَم بأسلوب راقٍ وحضاري.\n\n"
-            "⚠️ **ملاحظة:** تكرار المخالفات يعرّض حسابك للإنذار، الطرد، أو الحظر النهائي (Ban).\n"
+            "⚠️️ **ملاحظة:** تكرار المخالفات يعرّض حسابك للإنذار، الطرد، أو الحظر النهائي (Ban).\n"
             "📌 **وجودك بالسيرفر يعني موافقتك الكاملة على هذه القوانين.**\n\n"
             "🔻 ──── **English Rules** ──── 🔻\n\n"
             "<:one:1462866422664269975> : **Mutual Respect & Conduct**\n"
