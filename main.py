@@ -89,7 +89,7 @@ class RulesView(discord.ui.View):
             "<:five:1462866590105075817> : **Staff & Roles**\n"
             "**Roles are earned through trust and community participation—please do not request them.**\n"
             "**The administration's decisions are final, and in case of an objection, it should be submitted via [Support: <#1536119621940281404> ] in a classy, civilized and respectful manner.**\n\n"
-            "***⚠️️ Enforcement:*** **Violating these rules will result in warnings, temporary mutes, or a permanent ban depending on severity.**\n"
+            "***⚠️ Enforcement:*** **Violating these rules will result in warnings, temporary mutes, or a permanent ban depending on severity.**\n"
             "**Joining this server implies your agreement to all rules.**"
         )
         await interaction.response.send_message(en_rules_text, ephemeral=True)
@@ -106,11 +106,8 @@ async def on_ready():
 @commands.has_permissions(administrator=True)
 async def send_rules(ctx):
     embed = discord.Embed(
-        title="✨ نبذة عن السيرفر | About Server",
+        title="🐾 مياو",
         description=(
-            "**• بدون تعقيد رفيقي**\n"
-            "هذا السيرفر هو مكان مُخصص للترفيه فقط، والمحتوى فيه عشوائي حسب مزاج المالك والأعضاء.\n"
-            "يعتبر **Safe Zone**، وكل ما يدور بداخله لا يمد للواقع والجدية بصلة.\n\n"
             "لا تصير دبشة ولا تعرف القوانين، إذا أنت عربي اضغط عربي واقرأ، وإذا أنت أجنبي وذي مستحيلة اضغط على الإنجليزي."
         ),
         color=discord.Color.from_rgb(30, 31, 34)
@@ -208,7 +205,7 @@ async def warn_user(ctx, member: discord.Member = None, *, reason: str = "بدو
         except Exception as e:
             print(f"Failed to timeout member: {e}")
 
-    embed = discord.Embed(title="⚠️ تم تسجيل تحذير", color=discord.Color.gold())
+    embed = discord.Embed(title="⚠️️ تم تسجيل تحذير", color=discord.Color.gold())
     embed.add_field(name="العضو", value=member.mention, inline=True)
     embed.add_field(name="المشرف", value=ctx.author.mention, inline=True)
     embed.add_field(name="مجموع التحذيرات", value=f"**{total_warns}**", inline=True)
